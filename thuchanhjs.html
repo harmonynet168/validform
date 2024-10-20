@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Validation</title>
+    <style>
+        body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto;
+        }
+    </style>
+    <script>
+
+        // Quy uoc 
+        var checkphone = /^[0-9]{10,11}$/;
+        var checkemail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        var checkname = /^[a-zA-Z]{4,20}$/;
+        var checkpass = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+
+        // Check null
+        function checknull(txt)
+        {
+            return txt.value.length == 0;
+
+        }
+
+        // Kiem tra so nguyen duong
+        function isInteger(txt)
+        {
+            var value = Number(txt.value);
+            return Number.isInteger(value) && value > 0;    
+        }
+
+        // Kiem tra Gender 
+        function notCheck(radio)
+        {
+            var rt = true;
+            for(i=0; i<radio.length; i++){
+                if(radio[i].checked){
+                    rt = false;
+                }
+            }
+            return rt;
+        }
+
+        // Kiem tra voi quy uoc
+        function stringMatch(txt,reg)
+        {
+            return reg.test(txt.value);
+        }
+
+        // Ham chinh
+        function validForm(f)
+        {
+            if (checknull(f.username)) {
+                alert(f.username.name + " must not be null"); 
+                f.username.focus();
+                return false;
+            }
+
+            if (checknull(f.age)) {
+                alert(f.age.name + " must not be null"); 
+                f.age.focus();
+                return false;
+            }
+
+            if (!isNaN(f.age)) {
+                alert(f.age.name + " must be a positive integer");
+                f.age.value="";
+                f.age.focus;
+                return false;
+            }
+            
+            if (!isInteger(f.age)) {
+                alert(f.age.name + " must be a positive integer"); 
+                f.age.value="";
+                f.age.focus();
+                return false;
+            }
+
+            if (notCheck(f.gender)) {
+                alert("gender be selected");
+                return false;
+            }
+
+            if (checknull(f.phone)) {
+                alert(f.phone.name + " must not be null"); 
+                f.phone.focus();
+                return false;
+            }
+
+            if (!stringMatch(f.phone, checkphone)) {
+                alert("Invalid phone number");
+                f.phone.focus();
+                return false;
+            }
+
+            if (checknull(f.email)) {
+                alert(f.email.name + " must not be null"); 
+                f.email.focus();
+                return false;
+            }
+
+            if (!stringMatch(f.email, checkemail)) {
+                alert("Invalid email address");
+                f.email.focus();
+                return false;
+            }
+
+            alert("Form submitted successfully!");
+            f.submit();
+            return true;
+
+        }
+    </script>
+</head>
+<body>
+    <body>
+        <form action="/submit_form" method="post" name="formAccount">
+            <table>
+                <tr>
+                    <td colspan="2"><h2>Registration Form</h2></td>
+                </tr>
+                <tr>
+                    <td>Fullname:</td>
+                    <td><input type="text" name="username" placeholder="Enter Your Name Here"></td>
+                </tr>
+                <tr>
+                    <td>Age:</td>
+                    <td><input type="number" name="age"></td>
+                </tr>
+                <tr>
+                    <td>Gender:</td>
+                    <td>
+                    <input type="radio" name="gender" value="male">Male
+                    <input type="radio" name="gender" value="female">Female
+                    </td>
+                </tr>
+                <tr>
+                    <td>Phone Number:</td>
+                    <td><input type="tel" name="phone"></td>
+                </tr>
+                <tr>
+                    <td>Email:</td>
+                    <td><input type="email" name="email"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="button" value="Submit" onclick="validForm(this.form);">
+                        <input type="reset" value="Reset">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </body>
+</body>
+</html>
